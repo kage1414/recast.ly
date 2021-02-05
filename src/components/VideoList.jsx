@@ -5,7 +5,7 @@ import VideoListEntry from './VideoListEntry.js';
 var VideoList = (props) => (
   <ul className="video-list">
     {props.videos.map( (video, idx) =>
-      <VideoListEntry key={idx} video={video}/>
+      <VideoListEntry onChildClick={props.onChildClick} key={idx} video={video}/>
     )}
   </ul>
 );

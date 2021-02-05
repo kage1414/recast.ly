@@ -6,13 +6,28 @@ import VideoPlayer from './VideoPlayer.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {currentVideo: exampleVideoData[0], currentVids: exampleVideoData};
+    this.state = {
+      currentVideo: exampleVideoData[0],
+      currentVids: exampleVideoData
+    };
+    this.onListItemClick = this.onListItemClick.bind(this);
+    // this.findCurrentVideo = this.findCurrentVideo.bind(this);
   }
 
-  onListItemClick() {
-    this.setState({
-      currentVideo: this.props.videos[key]
-    });
+  // findCurrentVideo (title) {
+  //   console.log('findCurrentVideo');
+  //   for (var i = 0; i < exampleVideoData.length; i++) {
+  //     let currentTitle = exampleVideoData[i].snippet.title;
+  //     if (currentTitle === title) {
+  //       this.setState({currentVideo: exampleVideoData[i]});
+  //       break;
+  //     }
+  //   }
+  // }
+
+  onListItemClick(video) {
+    console.log(video);
+    this.setState({currentVideo: video});
   }
 
   render() {
@@ -28,7 +43,7 @@ class App extends React.Component {
             <div><h5><em>videoPlayer</em> <VideoPlayer video={this.state.currentVideo}/></h5></div>
           </div>
           <div className="col-md-5">
-            <div><h5><em>videoList</em> <VideoList onClick={this.onListItemClick.bind(this)} videos={this.state.currentVids}/></h5></div>
+            <div><h5><em>videoList</em> <VideoList data={this.state.currentVideo} onChildClick={this.onListItemClick} videos={this.state.currentVids}/></h5></div>
           </div>
         </div>
       </div>
