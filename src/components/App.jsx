@@ -1,6 +1,7 @@
 import exampleVideoData from '../data/exampleVideoData.js';
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
+import YOUTUBE_API_KEY from '../config/youtube.js';
 
 
 class App extends React.Component {
@@ -11,22 +12,10 @@ class App extends React.Component {
       currentVids: exampleVideoData
     };
     this.onListItemClick = this.onListItemClick.bind(this);
-    // this.findCurrentVideo = this.findCurrentVideo.bind(this);
   }
 
-  // findCurrentVideo (title) {
-  //   console.log('findCurrentVideo');
-  //   for (var i = 0; i < exampleVideoData.length; i++) {
-  //     let currentTitle = exampleVideoData[i].snippet.title;
-  //     if (currentTitle === title) {
-  //       this.setState({currentVideo: exampleVideoData[i]});
-  //       break;
-  //     }
-  //   }
-  // }
 
   onListItemClick(video) {
-    console.log(video);
     this.setState({currentVideo: video});
   }
 
