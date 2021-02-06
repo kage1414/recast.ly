@@ -2,6 +2,8 @@ import exampleVideoData from '../data/exampleVideoData.js';
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
 import YOUTUBE_API_KEY from '../config/youtube.js';
+import Search from './Search.js';
+
 // import searchYoutube from '../lib/searchYoutube.js';
 
 
@@ -20,8 +22,35 @@ class App extends React.Component {
     this.setState({currentVideo: video});
   }
 
+  debouncer(event, immediate = false) {
+    // let options = {
+    //   key: YOUTUBE_API_KEY,
+    //   query: event,
+    //   max: 5
+    // };
+
+    // _.debounce(this.props.searchYouTube(options), 500, immediate);
+    console.log('DEBOUNCER');
+  }
+
+  searchClick(event) {
+    console.log('SEARCH CLICK');
+    // console.log(event);
+    // console.log(this);
+    // let defaultOptions = {
+    //   key: YOUTUBE_API_KEY,
+    //   query: event,
+    //   max: 5
+    // };
+    // this.props.searchYouTube(defaultOptions, data => {
+    //   this.setState({
+    //     currentVideo: data[0],
+    //     currentVids: data
+    //   });
+    // });
+  }
+
   componentDidMount() {
-    console.log(typeof this.props.searchYoutube);
     let defaultOptions = {
       key: YOUTUBE_API_KEY,
       query: 'cats',
@@ -40,7 +69,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <div><h5><em>search</em> <Search searchYouTube={this.props.searchYouTube} debouncer={this.debouncer}/></h5></div>
           </div>
         </nav>
         <div className="row">

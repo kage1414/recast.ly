@@ -35,7 +35,7 @@ var hasSameShape = function(objectOne, objectTwo) {
   return true;
 };
 
-describe('searchYouTube', function() {
+xdescribe('searchYouTube', function() {
   var requests, xhr;
 
   // Sinon temporarily hijacks all outgoing AJAX requests with `useFakeXMLHttpRequest`
@@ -53,13 +53,13 @@ describe('searchYouTube', function() {
     }
   });
 
-  xit('should send a GET request', function() {
+  it('should send a GET request', function() {
     searchYouTube({}, () => {});
 
     expect(requests[0].method).to.equal('GET');
   });
 
-  xit('should accept `key`, `query`, and `max` options and send them in GET request', function() {
+  it('should accept `key`, `query`, and `max` options and send them in GET request', function() {
     searchYouTube({ key: 'API_KEY', query: 'cats', max: 10 }, () => {});
 
     var params = getURLSearchParams(requests[0].url);
