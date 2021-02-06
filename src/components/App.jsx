@@ -2,6 +2,7 @@ import exampleVideoData from '../data/exampleVideoData.js';
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
 import YOUTUBE_API_KEY from '../config/youtube.js';
+// import searchYoutube from '../lib/searchYoutube.js';
 
 
 class App extends React.Component {
@@ -17,6 +18,21 @@ class App extends React.Component {
 
   onListItemClick(video) {
     this.setState({currentVideo: video});
+  }
+
+  componentDidMount() {
+    console.log(typeof this.props.searchYoutube);
+    let defaultOptions = {
+      key: YOUTUBE_API_KEY,
+      query: 'cats',
+      max: 5
+    };
+    this.props.searchYouTube(defaultOptions, data => {
+      this.setState({
+        currentVideo: data[0],
+        currentVids: data
+      });
+    });
   }
 
   render() {
