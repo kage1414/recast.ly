@@ -3,7 +3,7 @@ import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
 import YOUTUBE_API_KEY from '../config/youtube.js';
 import Search from './Search.js';
-
+// import debounce from 'lodash/debounce';
 // import searchYoutube from '../lib/searchYoutube.js';
 
 
@@ -12,9 +12,18 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentVideo: exampleVideoData[0],
-      currentVids: exampleVideoData
+      currentVids: exampleVideoData,
+      searchValue: ''
     };
     this.onListItemClick = this.onListItemClick.bind(this);
+    this.debouncer = _.debounce(this.onInputChange.bind(this), 500);
+    this.searchClick = this.searchClick.bind(this);
+  }
+
+  changeSearchValue(value) {
+    this.setState({
+      searchValue: value
+    });
   }
 
 
@@ -22,32 +31,39 @@ class App extends React.Component {
     this.setState({currentVideo: video});
   }
 
-  debouncer(event, immediate = false) {
-    // let options = {
-    //   key: YOUTUBE_API_KEY,
-    //   query: event,
-    //   max: 5
-    // };
+  onInputChange(val) {
+    let options = {
+      key: YOUTUBE_API_KEY,
+      query: val,
+      max: 5
+    };
 
-    // _.debounce(this.props.searchYouTube(options), 500, immediate);
-    console.log('DEBOUNCER');
+    this.props.searchYouTube(options, data => {
+      this.setState({
+        currentVideo: data[0],
+        currentVids: data
+      });
+    });
+
+    console.log('debounced', val);
+
   }
 
-  searchClick(event) {
-    console.log('SEARCH CLICK');
-    // console.log(event);
-    // console.log(this);
-    // let defaultOptions = {
-    //   key: YOUTUBE_API_KEY,
-    //   query: event,
-    //   max: 5
-    // };
-    // this.props.searchYouTube(defaultOptions, data => {
-    //   this.setState({
-    //     currentVideo: data[0],
-    //     currentVids: data
-    //   });
-    // });
+  searchClick(val) {
+    console.log(this.state.searchValue);
+
+
+    let defaultOptions = {
+      key: YOUTUBE_API_KEY,
+      query: this.state.searchValue,
+      max: 5
+    };
+    this.props.searchYouTube(defaultOptions, data => {
+      this.setState({
+        currentVideo: data[0],
+        currentVids: data
+      });
+    });
   }
 
   componentDidMount() {
@@ -69,7 +85,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> <Search searchYouTube={this.props.searchYouTube} debouncer={this.debouncer}/></h5></div>
+            <div><h5><em>search</em> <Search changeSearchValue={this.changeSearchValue.bind(this)} searchClick={this.searchClick} handler={this.debouncer}/></h5></div>
           </div>
         </nav>
         <div className="row">
